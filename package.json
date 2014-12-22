@@ -1,0 +1,16 @@
+{
+	"name": "web-ui",
+	"version": "1.0.0",
+	"private": true,
+	"scripts": {
+		"start": "nodemon server.js"
+	},
+	"dependencies": {
+		"connect": "2.14.2",
+		"connect-redis" : "1.4.x",
+        "ejs": "0.8.5",
+        "express": "3.*",
+        "passport": "*",
+        "passport-local": "*"
+    }
+}
