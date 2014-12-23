@@ -10,23 +10,28 @@
 		<div class="container">
 			<h1>Welcome to the SOA example.</h1>
 
+			<div style="padding: 10px;">
+				<a class="btn btn-primary" href="/register">Register</a>
+			</div>
+
+
 			<%if (user) { %>
 				<div>You're Logged In!</div>
 				<div>User: <%= user.emailAddress %> </div>
 				<div>Access Token: <%= user.accessToken %> </div>
 
-				<div>
+				<div style="padding: 10px;">
 					<a class="btn btn-primary" href="/logout">Log-out</a>
 				</div>
 
-				<div>
+				<div style="padding: 10px;">
 					<a class="btn btn-primary" href="/authenticated">Go to App</a>
 				</div>
 
 
 			<% } else{ %>
 
-				<div>You're Not Logged In</div>
+				<div style="padding: 10px;">You're Not Logged In</div>
 
 				<a class="btn btn-primary" href="/login">Log-in</a>
 

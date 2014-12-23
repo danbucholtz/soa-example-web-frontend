@@ -89,6 +89,19 @@ app.get('/login', function(req, res){
     res.render('login', { user: req.user });
 });
 
+app.get('/register', function(req, res){
+    res.render('register', { user: req.user });
+});
+
+app.post('/register', function(req, res){
+    var emailAddresss = req.body.emailAddress;
+    var password = req.body.password;
+
+    userService.createUser(emailAddresss, password).then(function(user){
+    	res.redirect("/");
+    });
+});
+
 app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), function(req, res) {
 	res.redirect("/authenticated");
 });
