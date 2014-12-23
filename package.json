@@ -11,6 +11,9 @@
         "ejs": "0.8.5",
         "express": "3.*",
         "passport": "*",
-        "passport-local": "*"
+        "passport-local": "*",
+        "soa-example-authentication-service-api" : "git://github.com/danbucholtz/soa-example-authentication-service-api",
+        "soa-example-authorization-service-api" : "git://github.com/danbucholtz/soa-example-authorization-service-api",
+        "soa-example-user-service-api" : "git://github.com/danbucholtz/soa-example-user-service-api"
     }
 }

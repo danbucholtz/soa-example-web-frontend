@@ -1,1 +1,37 @@
-<h1>This is a protected resource</h1>
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Protected Page</title>
+		<link href="css/lib/bootstrap.min.css" rel="stylesheet">
+    	<link href="css/lib/ionicons.min.css" rel="stylesheet">
+    	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	</head>
+	<body>
+		<div class="container">
+			<h1>Bam!  You've got yourself a session!</h1>
+
+			<%if (user) { %>
+				<div>You're Logged In!</div>
+				<div>User: <%= user.emailAddress %> </div>
+				<div>Access Token: <%= user.accessToken %> </div>
+
+				<div>
+					<a class="btn btn-primary" href="/logout">Log-out</a>
+				</div>
+
+				<div>
+					<a class="btn btn-primary" href="/protectedTwo">Protected Resource #2</a>
+				</div>
+
+
+			<% } else{ %>
+
+				<div>You're Not Logged In</div>
+
+				<a class="btn btn-primary" href="/login">Log-in</a>
+
+			<% } %>
+		</div>
+
+	</body>
+</html>

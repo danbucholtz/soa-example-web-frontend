@@ -5,73 +5,42 @@ var passport = require('passport');
 // AUTH
 var LocalStrategy = require('passport-local').Strategy;
 
+var userService = require("soa-example-user-service-api");
+var authenticationService = require("soa-example-authentication-service-api");
+var authorizationService = require("soa-example-authorization-service-api");
+
 // Passport session setup.
 // To support persistent login sessions, Passport needs to be able to
 // serialize users into and deserialize users out of the session.
 passport.serializeUser(function(user, done) {
-	User.findOne({dropboxId: user.id}, function(err, dbuser){
-		if (!user  || err) {
-			done(null, user);
-		}
-		else{
-			done(null, dbuser);
-		}
-	});
+	done(null, user);
 });
 
 passport.deserializeUser(function(obj, done) {
 	done(null, obj);
 });
 
-// Dropbox OAuth2 Strategy
-passport.use(new DropboxOAuth2Strategy({
-		clientID: config.dropbox.appKey,
-		clientSecret: config.dropbox.appSecret,
-		callbackURL: config.dropbox.callbackURL,
-		passReqToCallback: true
-	},
-	function(req, accessToken, refreshToken, profile, done) {
-		process.nextTick(function () {
-            // save user to database
-            var dropboxId = profile.id;
-            var dropboxToken = User.encryptDropboxToken(accessToken);
-            var emailAddress = profile.emails[0].value;
-            // for mobile login we re-generate username and password
-            userController.createOrUpdateUser(dropboxId, dropboxToken, emailAddress, req.session.loginMobile, function(err, userEntity, clearTextUsername, clearTextPassword){
-                if ( err ){
-                    return done(err);
-                }
-                else {
-                    if (req.session.loginMobile) {
-                        // store the clear text username and password in the session for mobile login
-                        req.session.loginMobileUsername = clearTextUsername;
-                        req.session.loginMobilePassword = clearTextPassword;
-                    }
-					return done(null, profile);
-                }
-            });
-		});
-	}
-));
+passport.use(new LocalStrategy(function(username, password, done) {
+    // asynchronous verification, for effect...
+	process.nextTick(function () {
 
-passport.use(new BasicStrategy({
-	},
-	function(username, password, done) {
-		process.nextTick(function () {
-			User.findOne({generatedUsername: User.hashUsername(username), generatedPassword: User.hashPassword(password)}, function (err, user) {
-				if (err) {
-					return done(err);
-				}
-				else if (!user) {
-					return done(null, false);
-				}
-				else {
-					return done(null, user);
-				}
-			});
+		authenticationService.authenticateUserByEmailAddressAndPassword(username, password).then(function(response){
+			if ( !response.success ){
+				return done(null, false, {message: "Unknown User: " + username} );
+      		}
+      		var user = response.user;
+      		authorizationService.getPermissions(user.accessToken).then(function(permissions){
+      			user.permissions = permissions;
+      			return done (null, user);
+      		}, function(err){
+      			return done(null, false, { message: err.toString() });
+      		});
+      		
+
 		});
-	}
-));
+
+    });
+}));
 
 var app = express();
 
@@ -98,38 +67,34 @@ app.configure(function(){
 	app.use(app.router);
 });
 
-// Dropbox Auth Routes
-app.get('/auth/dropbox',
-	passport.authenticate('dropbox-oauth2'),
-	function(req, res){
-		// The request will be redirected to Dropbox for authentication, so this
-		// function will not be called.
-	}
-);
-
-app.get('/auth/dropbox/callback',
-	passport.authenticate('dropbox-oauth2', { failureRedirect: '/login' }),
-	function(req, res) {
-        if (req.session.loginMobile) {
-            // at this point the user object in the req is the dropbox user, so user.id = dropboxId in our db
-            userController.getUserByDropboxId(req.user.id, function(err,user) {
-                if (!err && user) {
-                    res.redirect("/mobileAuth?u=" + req.session.loginMobileUsername + "&p=" + req.session.loginMobilePassword);
-                }
-                else {
-                    res.redirect("/app");
-                }
-            });
-        }
-        else {
-            res.redirect("/app");
-        }
-	}
-);
-
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Node is starting up');
   console.log('Express server listening on port ' + app.get('port'));
+});
+
+app.get('/authenticated', ensureAuthenticated, function(req, res){
+	res.render('protected', { user: req.user });
+});
+
+app.get('/protectedTwo', ensureAuthenticated, function(req, res){
+	res.render('protectedTwo');
+});
+
+app.get('/logout', function(req, res){
+	req.logout();
+	res.redirect('/');
+});
+
+app.get('/login', function(req, res){
+    res.render('login', { user: req.user });
+});
+
+app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), function(req, res) {
+	res.redirect("/authenticated");
+});
+
+app.get('/', function(req, res){
+    res.render('landing', { user: req.user });
 });
 
 // Simple route middleware to ensure user is authenticated.
