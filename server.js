@@ -35,8 +35,6 @@ passport.use(new LocalStrategy(function(username, password, done) {
       		}, function(err){
       			return done(null, false, { message: err.toString() });
       		});
-      		
-
 		});
 
     });
