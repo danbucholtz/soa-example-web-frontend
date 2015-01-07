@@ -12,8 +12,14 @@
         "express": "3.*",
         "passport": "*",
         "passport-local": "*",
-        "soa-example-authentication-service-api" : "git://github.com/danbucholtz/soa-example-authentication-service-api",
-        "soa-example-authorization-service-api" : "git://github.com/danbucholtz/soa-example-authorization-service-api",
-        "soa-example-user-service-api" : "git://github.com/danbucholtz/soa-example-user-service-api"
+        "passport-http" : "*",
+	    "passport-http-bearer": "*",
+	    "soa-example-authentication-service-api" : "git://github.com/danbucholtz/soa-example-authentication-service-api",
+	    "soa-example-authorization-service-api" : "git://github.com/danbucholtz/soa-example-authorization-service-api",
+	    "soa-example-banned-ip-service-api" : "git://github.com/danbucholtz/soa-example-banned-ip-service-api",
+	    "soa-example-category-service-api" : "git://github.com/danbucholtz/soa-example-category-service-api",
+	    "soa-example-logging-service-api" : "git://github.com/danbucholtz/soa-example-logging-service-api",
+	    "soa-example-product-service-api" : "git://github.com/danbucholtz/soa-example-product-service-api",
+	    "soa-example-user-service-api": "git://github.com/danbucholtz/soa-example-user-service-api"
     }
 }
