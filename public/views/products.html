@@ -1,0 +1,53 @@
+<div class="body-content-wrapper" ng-controller="productController">
+	<div class="row">
+		<div class="col-md-3">
+			<ol class="breadcrumb">
+  				<li><a href="#">Home</a></li>
+				<li class="active">Products</li>
+			</ol>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-5">
+			<h4>Existing Products - Select to Edit/Delete</h4>
+			<ul class="list-group">
+				<li class="show-cursor list-group-item list-button-item" ng-repeat="product in products" ng-click="productClicked(product)">
+					<div class="list-button-item-text">{{product.title}}</div>
+				</li>
+			</ul>
+		</div>
+		<div class="col-md-2"></div>
+		<div class="col-md-5">
+			<div ng-if="selectedProduct" class="product-form-wrapper">
+				<h4 ng-if="selectedProduct._id">Edit Product</h4>
+				<h4 ng-if="selectedProduct && !selectedProduct._id">Create New Product</h4>
+				<form name="form">
+					<div class="form-group">
+	                  <label for="productNameInput">Product Name</label>
+	                  <input id="productNameInput" type="text" class="form-control" placeholder="Product Name" required autofocus ng-model="selectedProduct.name">
+	                </div>
+	                <div class="form-group">
+	                  <label for="priceInput">Price</label>
+	                  <input id="priceInput" type="number" class="form-control" placeholder="Price" required ng-model="selectedProduct.price">
+	                </div>
+	                <div class="form-group">
+	                  <label>Select a Category</label>
+	                  <select class="form-control" ng-model="selectedCategory" ng-options="category.name for category in categories" required></select>
+	                </div>
+                	<div class="form-group">
+                		<label>Description</label>
+                		<input type="text" class="form-control" placeholder="Enter Short Description" ng-model="selectedProduct.description" maxlength="100">
+                	</div>
+                	<span class="help-block">Enter a short description(Optional - 100 chars max)</span>
+	                <div class="pull-right">
+	                  <button class="btn btn-primary" ng-disabled="form.$invalid" ng-click="saveProduct(selectedProduct)" ng-if="!selectedProduct._id">Create Product</button>
+
+	                  <button class="btn btn-primary" ng-click="deleteProduct(selectedProduct)" ng-if="selectedProduct._id">Delete Product</button>
+
+	                  <div ng-if="saving">Saving...</div>
+	                </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

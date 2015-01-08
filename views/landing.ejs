@@ -1,41 +1,44 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Landing Page</title>
+		<title>SOA POC</title>
 		<link href="css/lib/bootstrap.min.css" rel="stylesheet">
     	<link href="css/lib/ionicons.min.css" rel="stylesheet">
     	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	</head>
 	<body>
 		<div class="container">
-			<h1>Welcome to the SOA example.</h1>
-
-			<div style="padding: 10px;">
-				<a class="btn btn-primary" href="/register">Register</a>
-			</div>
+			<h1>SOA POC</h1>
+			<h3>This app manipulates Products & Categories</h3>
 
 
 			<%if (user) { %>
+
 				<div>You're Logged In!</div>
 				<div>User: <%= user.emailAddress %> </div>
 				<div>Access Token: <%= user.accessToken %> </div>
 
-				<div style="padding: 10px;">
-					<a class="btn btn-primary" href="/logout">Log-out</a>
+				<div>
+					<a class="btn btn-primary" href="/app">Go to App</a>
 				</div>
 
-				<div style="padding: 10px;">
-					<a class="btn btn-primary" href="/authenticated">Go to App</a>
+				<div style="padding-top: 10px;">
+					<a class="btn btn-primary" href="/logout">Log-out</a>
 				</div>
 
 
 			<% } else{ %>
 
-				<div style="padding: 10px;">You're Not Logged In</div>
+				<div>
+					<a class="btn btn-primary" href="/register">Register</a>
+				</div>
 
-				<a class="btn btn-primary" href="/login">Log-in</a>
-
+				<div style="padding-top: 10px;">
+					<a class="btn btn-primary" href="/login">Log-in</a>
+				</div>
+			
 			<% } %>
+			
 		</div>
 
 	</body>

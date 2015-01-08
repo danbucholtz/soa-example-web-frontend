@@ -1,0 +1,36 @@
+.app-wrapper{
+	padding: 15px;
+}
+
+.header{
+	padding-bottom: 20px;
+}
+
+.body-content-wrapper{
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.show-cursor{
+	cursor: pointer;
+}
+
+.white{
+	color: #FFF;
+}
+
+.list-group-item:hover{
+	background-color: #F5F5F5;
+}
+
+.list-button-item{
+	height: 54px;
+}
+
+.list-button-item-text{
+	padding-top: 6px;
+}
+
+.inline-block{
+	display: inline-block;
+}

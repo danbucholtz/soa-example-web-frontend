@@ -25,8 +25,21 @@ var createCategory = function(req, res){
 	});
 };
 
+var deleteCategory = function(req, res){
+	var accessToken = req.user.accessToken;
+	var categoryId = req.body.id;
+
+	categoryService.deleteCategory(accessToken, categoryId).then(function(response){
+		if ( !response.success ){
+			res.statusCode = 500;
+		}
+		res.send(response);
+	});
+};
+
 module.exports = {
 	createCategory: createCategory,
 	getCategoryById: getCategoryById,
-	getCategories: getCategories
+	getCategories: getCategories,
+	deleteCategory: deleteCategory
 };

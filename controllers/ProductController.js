@@ -19,8 +19,20 @@ var getProductById = function(req, res){
 var createProduct = function(req, res){
 	var accessToken = req.user.accessToken;
 	var productName = req.body.name;
+	var price = req.body.price;
+	var categoryId = req.body.categoryId;
+	var description = req.body.description;
 
-	productService.createProduct(accessToken, productName).then(function(response){
+	productService.createProduct(accessToken, productName, price, categoryId, description).then(function(response){
+		res.send(response);
+	});
+};
+
+var deleteProduct = function(req, res){
+	var accessToken = req.user.accessToken;
+	var productId = req.body.id;
+
+	productService.deleteCategory(accessToken, productId).then(function(response){
 		res.send(response);
 	});
 };
@@ -28,5 +40,6 @@ var createProduct = function(req, res){
 module.exports = {
 	createProduct: createProduct,
 	getProductById: getProductById,
-	getProducts: getProducts
+	getProducts: getProducts,
+	deleteProduct: deleteProduct
 };

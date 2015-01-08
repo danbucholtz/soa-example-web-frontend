@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="soa">
+	<head>
+		<title>SOA POC</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+		<link href="css/lib/bootstrap.min.css" rel="stylesheet">
+    	<link href="css/lib/ionicons.min.css" rel="stylesheet">
+    	
+    	<link href="css/app.css" rel="stylesheet">
+    	
+    	<script src="js/lib/angular.min.js"></script>
+	    <script src="js/lib/angular-ui-bootstrap.min.js"></script>
+	    <script src="js/lib/angular-ui-router.min.js"></script>
+	    <script src="js/lib/dateformat.min.js"></script>
+
+	    <script src="js/app.uirouter.js"></script>
+
+		<script src="js/services/CategoryService.js"></script>
+	    <script src="js/services/ProductService.js"></script>
+    	
+	    <script src="js/controllers/CategoryController.js"></script>
+	    <script src="js/controllers/LandingController.js"></script>
+    	<script src="js/controllers/ProductController.js"></script>
+
+    	<script src="js/routes.js"></script>
+    	
+	</head>
+	<body>
+		<div class="app-wrapper">
+			<div class="container">
+				<div class="row header">
+					<div class="col-md-3">
+						<h2>Soa Example</h2>
+					</div>
+					<div class="col-md-9">
+						<div class="pull-right">
+							<a href="/logout" class="btn btn-success">Log-out</a>
+						</div>
+					</div>
+				</div>
+				<hr class="featurette-divider">
+	      		<div ui-view> </div>
+			</div>
+		</div>
+	</body>
+</html>

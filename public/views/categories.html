@@ -1,0 +1,40 @@
+<div class="body-content-wrapper" ng-controller="categoryController">
+	<div class="row">
+		<div class="col-md-3">
+			<ol class="breadcrumb">
+  				<li><a href="#">Home</a></li>
+				<li class="active">Categories</li>
+			</ol>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-5">
+			<h4>Existing Categories - Select to Edit/Delete</h4>
+			<ul class="list-group">
+				<li class="show-cursor list-group-item list-button-item" ng-repeat="category in categories" ng-click="categoryClicked(category)">
+					<div class="list-button-item-text">{{category.title}}</div>
+				</li>
+			</ul>
+		</div>
+		<div class="col-md-2"></div>
+		<div class="col-md-5">
+			<div ng-if="selectedCategory" class="product-form-wrapper">
+				<h4 ng-if="selectedCategory._id">Update Category</h4>
+				<h4 ng-if="selectedCategory && !selectedCategory._id">Create New Category</h4>
+				<form name="form">
+					<div class="form-group">
+	                  <label for="categoryNameInput">Category Name</label>
+	                  <input id="categoryNameInput" type="text" class="form-control" placeholder="Category Name" required autofocus ng-model="selectedCategory.name" ng-disabled="selectedCategory._id">
+	                </div>
+	                <div class="pull-right">
+	                  <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid" ng-click="saveCategory(selectedCategory)" ng-if="!selectedCategory._id">Create Category</button>
+
+	                  <button type="submit" class="btn btn-primary" ng-click="deleteCategory(selectedCategory)" ng-if="selectedCategory._id">Delete Category</button>
+
+	                  <div ng-if="saving">Saving...</div>
+	                </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

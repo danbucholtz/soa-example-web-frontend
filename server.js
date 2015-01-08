@@ -107,16 +107,14 @@ http.createServer(app).listen(app.get("port"), function(){
 app.get("/api/categories", ensureAuthenticated, categoryController.getCategories);
 app.get("/api/categories/:id", ensureAuthenticated, categoryController.getCategoryById);
 app.post("/api/categories", ensureAuthenticated, categoryController.createCategory);
+app.post("/api/categories/delete", ensureAuthenticated, categoryController.deleteCategory);
 app.get("/api/products", ensureAuthenticated, productController.getProducts);
 app.get("/api/products/:id", ensureAuthenticated, productController.getProductById);
 app.post("/api/products", ensureAuthenticated, productController.createProduct);
+app.post("/api/products/delete", ensureAuthenticated, productController.deleteProduct);
 
-app.get("/authenticated", ensureAuthenticated, function(req, res){
-    res.render("protected", { user: req.user });
-});
-
-app.get("/protectedTwo", ensureAuthenticated, function(req, res){
-    res.render("protectedTwo");
+app.get("/app", ensureAuthenticated, function(req, res){
+    res.render("app", { user: req.user });
 });
 
 app.get("/logout", function(req, res){
@@ -142,7 +140,7 @@ app.post("/register", function(req, res){
 });
 
 app.post("/login", doLocalAuthentication, function(req, res) {
-    res.redirect("/authenticated");
+    res.redirect("/app");
 });
 
 app.get("/", function(req, res){
@@ -165,7 +163,12 @@ function doLocalAuthentication(req, res, next){
             passport.authenticate("local", { }, function (err, user, message){
                 if ( user ){
                     req.user = user;
-                    return next();
+                    req.login(user, function(err){
+                        if ( err ){
+                            return next(err);
+                        }
+                        return next();
+                    });
                 }
                 else{
                     bannedIpService.invalidBasicCredentials(ipAddress, message.username, message.password);

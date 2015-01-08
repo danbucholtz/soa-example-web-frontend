@@ -1,0 +1,34 @@
+.cube{
+	margin-top: 20px;
+	padding: 10px;
+	height: 213px;
+	width: 213px;
+}
+
+.cube-header{
+	margin: 0px;
+}
+
+.categories-bg{
+	background-color: #ee474b;
+}
+
+.categories-bg:hover{
+	background-color: #CE3C3E;
+}
+
+.products-bg{
+	background-color: #f58b3f;
+}
+
+.products-bg:hover{
+	background-color: #D57732;
+}
+
+.categories-icon{
+	font-size: 142px;
+}
+
+.products-icon{
+	font-size: 142px;
+}
