@@ -3,7 +3,9 @@ application.controller('productController', function ($scope, $state, productSer
 	$scope.products = null;
 	$scope.saving = false;
 
-	$scope.selectedCategory = null;
+	$scope.selectedCategory = {
+		category: null
+	};
 
 	var getProducts = function(){
 		
@@ -32,7 +34,7 @@ application.controller('productController', function ($scope, $state, productSer
 					category.title = category.name;
 				}
 				$scope.categories = data;
-				$scope.selectedCategory = data[0];
+				$scope.selectedCategory.category = data[0];
 			}
 		}).error(function (data, status, headers, config) {
 		});
@@ -51,7 +53,7 @@ application.controller('productController', function ($scope, $state, productSer
 		if ( product.category && $scope.categories && $scope.categories.length > 0 ){
 			for ( var i = 0; i < $scope.categories.length; i++ ){
 				if ( $scope.categories[i]._id == product.category ){
-					$scope.selectedCategory = $scope.categories[i];
+					$scope.selectedCategory.category = $scope.categories[i];
 					break;
 				}
 			}
@@ -60,21 +62,16 @@ application.controller('productController', function ($scope, $state, productSer
 
 	$scope.saveProduct = function(product){
 		$scope.saving = true;
-		if ( !$scope.selectedCategory ){
-			alert("A Product requires a catagory");
-		}
-		else{
-			product.categoryId = $scope.selectedCategory._id;
-			productService.saveProduct(product).success(function (data, status, headers, config) {
-				$scope.selectedProduct = null;
-				getProducts();
-				$scope.saving = false;
-			}).
-			error(function (data, status, headers, config) {
-				$scope.saving = false;
-				alert(data.errorMessage);
-			});
-		}
+		product.categoryId = $scope.selectedCategory.category._id;
+		productService.saveProduct(product).success(function (data, status, headers, config) {
+			$scope.selectedProduct = null;
+			getProducts();
+			$scope.saving = false;
+		}).
+		error(function (data, status, headers, config) {
+			$scope.saving = false;
+			alert(data.errorMessage);
+		});
 	};
 
 	$scope.deleteProduct = function(product){
